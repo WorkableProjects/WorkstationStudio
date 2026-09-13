@@ -1,20 +1,24 @@
 import { useRef, useState, type ReactNode } from "react";
-import type { WindowState } from "../types";
+import { APP_META, type WindowState } from "../types";
 
 interface Props {
   win: WindowState;
+  isActive: boolean;
   onFocus: (id: string) => void;
   onClose: (id: string) => void;
   onMinimize: (id: string) => void;
+  onMaximize: (id: string) => void;
   onMove: (id: string, x: number, y: number) => void;
   children: ReactNode;
 }
 
 export function WindowFrame({
   win,
+  isActive,
   onFocus,
   onClose,
   onMinimize,
+  onMaximize,
   onMove,
   children,
 }: Props) {
@@ -29,6 +33,8 @@ export function WindowFrame({
     onFocus(win.id);
     const target = e.target as HTMLElement;
     if (!target.closest(".window-titlebar") || target.closest("button")) return;
+    if (win.maximized) return;
+
     drag.current = {
       ox: e.clientX,
       oy: e.clientY,
@@ -40,7 +46,7 @@ export function WindowFrame({
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
-    if (!drag.current) return;
+    if (!drag.current || win.maximized) return;
     const dx = e.clientX - drag.current.ox;
     const dy = e.clientY - drag.current.oy;
     onMove(
@@ -55,29 +61,66 @@ export function WindowFrame({
     setDragging(false);
   };
 
-  return (
-    <div
-      className={`window ${dragging ? "dragging" : ""}`}
-      style={{
+  const style = win.maximized
+    ? {
+        left: 0,
+        top: 0,
+        width: "100%",
+        height: "calc(100% - 30px)",
+        zIndex: win.zIndex,
+      }
+    : {
         left: win.x,
         top: win.y,
         width: win.width,
         height: win.height,
         zIndex: win.zIndex,
-      }}
+      };
+
+  return (
+    <div
+      className={`window ${isActive ? "active" : ""} ${dragging ? "dragging" : ""}`}
+      style={style}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onMouseDown={() => onFocus(win.id)}
     >
       <div className="window-titlebar">
-        <span className="window-title">{win.title}</span>
+        <div className="window-title">
+          <span>{APP_META[win.appId].icon}</span>
+          <span>{win.title}</span>
+        </div>
         <div className="window-controls">
-          <button type="button" aria-label="Minimize" onClick={() => onMinimize(win.id)}>
-            –
+          <button
+            type="button"
+            aria-label="Minimize"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMinimize(win.id);
+            }}
+          >
+            _
           </button>
-          <button type="button" aria-label="Close" onClick={() => onClose(win.id)}>
-            ×
+          <button
+            type="button"
+            aria-label="Maximize"
+            onClick={(e) => {
+              e.stopPropagation();
+              onMaximize(win.id);
+            }}
+          >
+            {win.maximized ? "❐" : "🗖"}
+          </button>
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose(win.id);
+            }}
+          >
+            ✕
           </button>
         </div>
       </div>
