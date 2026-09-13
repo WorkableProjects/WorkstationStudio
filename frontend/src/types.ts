@@ -7,7 +7,7 @@ export type AppId =
   | "filemanager"
   | "todo"
   | "paint"
-  | "codeeditor"
+  | "audiostudio"
   | "contacts";
 
 export interface WindowState {
@@ -25,55 +25,21 @@ export interface WindowState {
 
 export const APP_META: Record<
   AppId,
-  { title: string; defaultWidth: number; defaultHeight: number; icon: string; desktopShortcut?: boolean }
+  {
+    title: string;
+    defaultWidth: number;
+    defaultHeight: number;
+    icon: string;
+    category: "System Utilities" | "Productivity" | "Media & Creative";
+    desktopShortcut?: boolean;
+  }
 > = {
   terminal: {
     title: "Workstation CLI",
     defaultWidth: 640,
     defaultHeight: 400,
     icon: "💻",
-    desktopShortcut: true,
-  },
-  notes: {
-    title: "Notes",
-    defaultWidth: 500,
-    defaultHeight: 380,
-    icon: "📝",
-    desktopShortcut: true,
-  },
-  todo: {
-    title: "Tasks & Todo",
-    defaultWidth: 380,
-    defaultHeight: 340,
-    icon: "✅",
-    desktopShortcut: true,
-  },
-  paint: {
-    title: "Studio Paint",
-    defaultWidth: 500,
-    defaultHeight: 380,
-    icon: "🎨",
-    desktopShortcut: true,
-  },
-  codeeditor: {
-    title: "Code Pad",
-    defaultWidth: 520,
-    defaultHeight: 380,
-    icon: "📜",
-    desktopShortcut: true,
-  },
-  contacts: {
-    title: "Contacts",
-    defaultWidth: 420,
-    defaultHeight: 320,
-    icon: "🎴",
-    desktopShortcut: true,
-  },
-  calculator: {
-    title: "Calculator",
-    defaultWidth: 260,
-    defaultHeight: 320,
-    icon: "🧮",
+    category: "System Utilities",
     desktopShortcut: true,
   },
   filemanager: {
@@ -81,6 +47,7 @@ export const APP_META: Record<
     defaultWidth: 560,
     defaultHeight: 360,
     icon: "📁",
+    category: "System Utilities",
     desktopShortcut: true,
   },
   settings: {
@@ -88,6 +55,7 @@ export const APP_META: Record<
     defaultWidth: 460,
     defaultHeight: 340,
     icon: "⚙️",
+    category: "System Utilities",
     desktopShortcut: true,
   },
   about: {
@@ -95,6 +63,55 @@ export const APP_META: Record<
     defaultWidth: 380,
     defaultHeight: 280,
     icon: "ℹ️",
-    desktopShortcut: false, // Placed under Start Menu, not desktop
+    category: "System Utilities",
+    desktopShortcut: false,
+  },
+  notes: {
+    title: "Notes",
+    defaultWidth: 500,
+    defaultHeight: 380,
+    icon: "📝",
+    category: "Productivity",
+    desktopShortcut: true,
+  },
+  todo: {
+    title: "Tasks & Todo",
+    defaultWidth: 380,
+    defaultHeight: 340,
+    icon: "✅",
+    category: "Productivity",
+    desktopShortcut: true,
+  },
+  contacts: {
+    title: "Contacts",
+    defaultWidth: 420,
+    defaultHeight: 320,
+    icon: "🎴",
+    category: "Productivity",
+    desktopShortcut: true,
+  },
+  calculator: {
+    title: "Calculator",
+    defaultWidth: 260,
+    defaultHeight: 320,
+    icon: "🧮",
+    category: "Productivity",
+    desktopShortcut: true,
+  },
+  paint: {
+    title: "Studio Paint",
+    defaultWidth: 500,
+    defaultHeight: 380,
+    icon: "🎨",
+    category: "Media & Creative",
+    desktopShortcut: true,
+  },
+  audiostudio: {
+    title: "Sound Recorder",
+    defaultWidth: 460,
+    defaultHeight: 320,
+    icon: "🎙️",
+    category: "Media & Creative",
+    desktopShortcut: true,
   },
 };

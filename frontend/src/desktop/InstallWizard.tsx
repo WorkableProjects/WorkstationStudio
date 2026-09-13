@@ -59,7 +59,7 @@ export function InstallWizard({ onComplete }: Props) {
             justifyContent: "space-between",
           }}
         >
-          <span>Workstation Studio Setup Wizard (v0.0.2.6.6)</span>
+          <span>Workstation Studio Setup Wizard (v0.0.2.7.77)</span>
         </div>
 
         {/* Wizard Header Banner */}

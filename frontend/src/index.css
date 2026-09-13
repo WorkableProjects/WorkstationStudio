@@ -1,7 +1,7 @@
 /* Workstation Studio Theme System & Styles */
 
 :root {
-  /* Default Teal-Tech Modern Theme (Away from Win95 retro) */
+  /* Default Teal-Tech Modern Theme */
   --desktop-bg: radial-gradient(circle at 50% 30%, #0d3b3c 0%, #051c1d 100%);
   --dialog-bg: #102a2b;
   --dialog-fg: #e0f7f6;
@@ -104,9 +104,15 @@ button {
   align-items: center;
   justify-content: center;
   gap: 4px;
+  transition: transform 0.1s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+button:hover {
+  filter: brightness(1.1);
 }
 
 button:active, button.pressed {
+  transform: scale(0.97);
   border-top: 2px solid var(--border-darker);
   border-left: 2px solid var(--border-darker);
   border-right: 2px solid var(--border-light);
@@ -119,6 +125,8 @@ button:disabled {
   color: var(--border-dark);
   text-shadow: 1px 1px 0 var(--border-light);
   cursor: default;
+  transform: none;
+  filter: none;
 }
 
 input[type="text"], input[type="search"], textarea, select {
@@ -134,6 +142,30 @@ input[type="text"], input[type="search"], textarea, select {
   padding: 3px 5px;
   outline: none;
   user-select: text;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Keyframe Animations */
+@keyframes windowOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes startMenuSlide {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* App Desktop Base Layout */
@@ -153,7 +185,7 @@ input[type="text"], input[type="search"], textarea, select {
   overflow: hidden;
 }
 
-/* Window Chrome */
+/* Window Chrome with Animations */
 .window {
   position: absolute;
   background: var(--dialog-bg);
@@ -161,11 +193,13 @@ input[type="text"], input[type="search"], textarea, select {
   border-left: 2px solid var(--border-light);
   border-right: 2px solid var(--border-darker);
   border-bottom: 2px solid var(--border-darker);
-  box-shadow: inset 1px 1px 0 var(--border-medium), inset -1px -1px 0 var(--border-dark);
+  box-shadow: inset 1px 1px 0 var(--border-medium), inset -1px -1px 0 var(--border-dark), 0 8px 24px rgba(0,0,0,0.35);
   display: flex;
   flex-direction: column;
   min-width: 200px;
   min-height: 120px;
+  animation: windowOpen 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
 }
 
 .window.active .window-titlebar {
@@ -182,6 +216,7 @@ input[type="text"], input[type="search"], textarea, select {
   padding: 3px 3px 3px 4px;
   font-weight: bold;
   height: 22px;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .window-title {
@@ -279,7 +314,7 @@ input[type="text"], input[type="search"], textarea, select {
   font-size: 11px;
 }
 
-/* Start Menu Popup */
+/* Start Menu Popup with Animation */
 .start-menu {
   position: absolute;
   bottom: 30px;
@@ -290,9 +325,10 @@ input[type="text"], input[type="search"], textarea, select {
   border-left: 2px solid var(--border-light);
   border-right: 2px solid var(--border-darker);
   border-bottom: 2px solid var(--border-darker);
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
   display: flex;
   z-index: 10001;
+  animation: startMenuSlide 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .start-menu-sidebar {
@@ -328,6 +364,7 @@ input[type="text"], input[type="search"], textarea, select {
   width: 100%;
   text-align: left;
   box-shadow: none;
+  transition: background 0.12s ease, color 0.12s ease;
 }
 
 .start-menu-item:hover {

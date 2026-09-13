@@ -11,7 +11,7 @@ interface Props {
 
 export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
-  const { currentUser } = useUser();
+  const { currentUser, logout } = useUser();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -40,6 +40,18 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
         <div style={{ padding: "6px 8px", fontSize: "11px", borderBottom: "1px solid var(--border-dark)", marginBottom: "4px" }}>
           👤 User: <strong>{currentUser}</strong>
         </div>
+
+        <button
+          type="button"
+          className="start-menu-item"
+          onClick={() => {
+            logout();
+            onClose();
+          }}
+        >
+          <span>🔑</span>
+          <span>Sign Out / Log Off</span>
+        </button>
 
         <button
           type="button"

@@ -31,7 +31,7 @@ export function AboutApp({ onClose }: Props) {
           <h2 style={{ margin: "0 0 2px 0", fontSize: "16px", fontWeight: "bold" }}>
             Workstation Studio
           </h2>
-          <div style={{ color: "#404040" }}>Version {packageJson.version} (v0.0.2.6.6)</div>
+          <div style={{ color: "var(--dialog-fg)" }}>Version {packageJson.version}</div>
         </div>
       </div>
 
@@ -39,7 +39,8 @@ export function AboutApp({ onClose }: Props) {
         className="inset-border"
         style={{
           flex: 1,
-          backgroundColor: "#ffffff",
+          backgroundColor: "var(--dialog-bg)",
+          color: "var(--dialog-fg)",
           padding: "8px",
           display: "flex",
           flexDirection: "column",

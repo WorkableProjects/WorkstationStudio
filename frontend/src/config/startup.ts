@@ -10,6 +10,6 @@ export const STARTUP_CONFIG: StartupConfig = {
     { progress: 30, message: "Loading Workstation Studio Kernel..." },
     { progress: 55, message: "Mounting Virtual File System..." },
     { progress: 80, message: "Starting Desktop Environment..." },
-    { progress: 100, message: "Welcome to Workstation Studio 0.0.2.6.6" },
+    { progress: 100, message: "Welcome to Workstation Studio 0.0.2.7.77" },
   ],
 };

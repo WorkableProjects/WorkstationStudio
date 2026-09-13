@@ -1,7 +1,7 @@
 {
   "name": "workstation-studio",
   "private": true,
-  "version": "0.0.2.6.6",
+  "version": "0.0.2.7.77",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -324,7 +324,8 @@ export function SettingsApp() {
                 <div
                   className="inset-border"
                   style={{
-                    backgroundColor: "#ffffff",
+                    backgroundColor: "var(--dialog-bg)",
+                    color: "var(--dialog-fg)",
                     padding: "6px",
                     fontSize: "10px",
                     fontFamily: "monospace",

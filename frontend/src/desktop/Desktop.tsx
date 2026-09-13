@@ -7,15 +7,23 @@ import { AboutApp } from "../apps/AboutApp";
 import { FileManagerApp } from "../apps/FileManagerApp";
 import { TodoApp } from "../apps/TodoApp";
 import { PaintApp } from "../apps/PaintApp";
-import { CodeEditorApp } from "../apps/CodeEditorApp";
+import { AudioStudioApp } from "../apps/AudioStudioApp";
 import { ContactsApp } from "../apps/ContactsApp";
 import { WindowFrame } from "./WindowFrame";
 import { Taskbar } from "./Taskbar";
 import { SplashScreen } from "./SplashScreen";
 import { InstallWizard } from "./InstallWizard";
+import { LoginScreen } from "./LoginScreen";
+import { useUser } from "../context/UserContext";
 import { APP_META, type AppId, type WindowState } from "../types";
 
 let zCounter = 10;
+
+const DESKTOP_FOLDERS = [
+  { id: "system_utils", name: "System Utilities", icon: "🧰", category: "System Utilities" },
+  { id: "productivity", name: "Productivity", icon: "💼", category: "Productivity" },
+  { id: "media_creative", name: "Media & Creative", icon: "🎬", category: "Media & Creative" },
+] as const;
 
 function createWindow(appId: AppId, offset: number): WindowState {
   const meta = APP_META[appId];
@@ -35,15 +43,15 @@ function createWindow(appId: AppId, offset: number): WindowState {
 }
 
 export function Desktop() {
+  const { isLoggedIn } = useUser();
   const [needsInstall, setNeedsInstall] = useState(() => {
     return !localStorage.getItem("workstation_installed");
   });
   const [booting, setBooting] = useState(true);
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
-  const [systemStateMessage, setSystemStateMessage] = useState<string | null>(
-    null,
-  );
+  const [openFolderId, setOpenFolderId] = useState<string | null>(null);
+  const [systemStateMessage, setSystemStateMessage] = useState<string | null>(null);
 
   const openApp = useCallback((appId: AppId) => {
     setWindows((prev) => {
@@ -151,8 +159,8 @@ export function Desktop() {
         return <TodoApp />;
       case "paint":
         return <PaintApp />;
-      case "codeeditor":
-        return <CodeEditorApp />;
+      case "audiostudio":
+        return <AudioStudioApp />;
       case "contacts":
         return <ContactsApp />;
       case "calculator":
@@ -172,6 +180,10 @@ export function Desktop() {
 
   if (booting) {
     return <SplashScreen onComplete={() => setBooting(false)} />;
+  }
+
+  if (!isLoggedIn) {
+    return <LoginScreen />;
   }
 
   if (systemStateMessage) {
@@ -201,61 +213,146 @@ export function Desktop() {
     );
   }
 
+  const activeFolder = DESKTOP_FOLDERS.find((f) => f.id === openFolderId);
+
   return (
     <div className="desktop">
       <div className="desktop-surface">
-        {/* Desktop Shortcut Icons */}
+        {/* Desktop Shortcuts for Folders */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, 80px)",
-            gridAutoRows: "80px",
-            gap: "12px",
-            padding: "16px",
+            gridTemplateColumns: "repeat(auto-fill, 90px)",
+            gridAutoRows: "90px",
+            gap: "16px",
+            padding: "20px",
             position: "absolute",
             inset: 0,
             alignContent: "start",
           }}
         >
-          {(Object.keys(APP_META) as AppId[])
-            .filter((appId) => APP_META[appId].desktopShortcut !== false)
-            .map((appId) => (
-              <button
-                key={appId}
-                type="button"
-                onDoubleClick={() => openApp(appId)}
+          {DESKTOP_FOLDERS.map((folder) => (
+            <button
+              key={folder.id}
+              type="button"
+              onDoubleClick={() => setOpenFolderId(folder.id)}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "transparent",
+                border: "1px transparent solid",
+                boxShadow: "none",
+                color: "#ffffff",
+                textShadow: "1px 1px 2px #000000",
+                width: "80px",
+                height: "80px",
+                padding: "4px",
+                borderRadius: "4px",
+              }}
+            >
+              <span style={{ fontSize: "32px", marginBottom: "4px" }}>
+                {folder.icon}
+              </span>
+              <span
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: "transparent",
-                  border: "1px transparent solid",
-                  boxShadow: "none",
-                  color: "#ffffff",
-                  textShadow: "1px 1px 2px #000000",
-                  width: "72px",
-                  height: "72px",
-                  padding: "4px",
-                  borderRadius: "2px",
+                  fontSize: "11px",
+                  textAlign: "center",
+                  wordBreak: "break-word",
+                  lineHeight: "1.1",
+                  fontWeight: "bold",
                 }}
               >
-                <span style={{ fontSize: "28px", marginBottom: "4px" }}>
-                  {APP_META[appId].icon}
-                </span>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    textAlign: "center",
-                    wordBreak: "break-word",
-                    lineHeight: "1.1",
-                  }}
-                >
-                  {APP_META[appId].title}
-                </span>
-              </button>
-            ))}
+                {folder.name}
+              </span>
+            </button>
+          ))}
         </div>
+
+        {/* Folder Window Viewer */}
+        {activeFolder && (
+          <div
+            className="window active outset-border"
+            style={{
+              position: "absolute",
+              left: "120px",
+              top: "80px",
+              width: "420px",
+              height: "280px",
+              zIndex: 9999,
+              backgroundColor: "var(--dialog-bg)",
+            }}
+          >
+            <div className="window-titlebar">
+              <div className="window-title">
+                <span>{activeFolder.icon}</span>
+                <span>{activeFolder.name}</span>
+              </div>
+              <div className="window-controls">
+                <button type="button" onClick={() => setOpenFolderId(null)}>
+                  ✕
+                </button>
+              </div>
+            </div>
+            <div
+              className="window-body inset-border"
+              style={{
+                backgroundColor: "#ffffff",
+                margin: "4px",
+                padding: "12px",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, 80px)",
+                gridAutoRows: "80px",
+                gap: "12px",
+                alignContent: "start",
+              }}
+            >
+              {(Object.keys(APP_META) as AppId[])
+                .filter(
+                  (appId) =>
+                    APP_META[appId].category === activeFolder.category &&
+                    APP_META[appId].desktopShortcut !== false,
+                )
+                .map((appId) => (
+                  <button
+                    key={appId}
+                    type="button"
+                    onDoubleClick={() => {
+                      openApp(appId);
+                      setOpenFolderId(null);
+                    }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "transparent",
+                      border: "1px transparent solid",
+                      color: "#000000",
+                      width: "72px",
+                      height: "72px",
+                      padding: "4px",
+                    }}
+                  >
+                    <span style={{ fontSize: "28px", marginBottom: "4px" }}>
+                      {APP_META[appId].icon}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "10px",
+                        textAlign: "center",
+                        wordBreak: "break-word",
+                        lineHeight: "1.1",
+                      }}
+                    >
+                      {APP_META[appId].title}
+                    </span>
+                  </button>
+                ))}
+            </div>
+          </div>
+        )}
 
         {/* Windows Rendering */}
         {windows.map((win) => (

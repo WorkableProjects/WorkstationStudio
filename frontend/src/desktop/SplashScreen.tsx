@@ -71,11 +71,24 @@ export function SplashScreen({ onComplete }: Props) {
             textAlign: "center",
           }}
         >
-          <img
-            src="/assets/Logo.png"
-            alt="Workstation Studio"
-            style={{ width: "64px", height: "64px", marginBottom: "16px" }}
-          />
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              padding: "12px",
+              borderRadius: "12px",
+              boxShadow: "0 0 20px rgba(0, 242, 254, 0.6)",
+              marginBottom: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="/assets/Logo.png"
+              alt="Workstation Studio"
+              style={{ width: "64px", height: "64px" }}
+            />
+          </div>
           <h1 style={{ fontSize: "24px", margin: "0 0 4px 0", fontWeight: "bold" }}>
             Workstation Studio
           </h1>
