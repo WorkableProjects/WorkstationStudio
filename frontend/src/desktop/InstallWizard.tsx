@@ -1,4 +1,5 @@
 import { useState } from "react";
+import packageJson from "../../package.json";
 import { useTheme, type ThemeMode } from "../context/ThemeContext";
 import { useUser } from "../context/UserContext";
 
@@ -59,7 +60,7 @@ export function InstallWizard({ onComplete }: Props) {
             justifyContent: "space-between",
           }}
         >
-          <span>Workstation Studio Setup Wizard (v0.0.2.7.77)</span>
+          <span>Workstation Studio Setup Wizard (v{packageJson.version})</span>
         </div>
 
         {/* Wizard Header Banner */}
@@ -175,7 +176,7 @@ export function InstallWizard({ onComplete }: Props) {
             <div>
               <h4 style={{ marginTop: 0 }}>Setup Complete</h4>
               <p style={{ fontSize: "11px" }}>
-                Workstation Studio 0.0.2.6.6 is configured and ready to start.
+                Workstation Studio {packageJson.version} is configured and ready to start.
               </p>
               <ul style={{ fontSize: "11px", paddingLeft: "20px" }}>
                 <li>User Directory: .studio/{usernameInput || "studio_user"}</li>
