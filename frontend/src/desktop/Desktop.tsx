@@ -14,6 +14,7 @@ import { Taskbar } from "./Taskbar";
 import { SplashScreen } from "./SplashScreen";
 import { InstallWizard } from "./InstallWizard";
 import { LoginScreen } from "./LoginScreen";
+import { NotificationToast, type ToastItem } from "../components/NotificationToast";
 import { useUser } from "../context/UserContext";
 import { APP_META, type AppId, type WindowState } from "../types";
 
@@ -52,6 +53,23 @@ export function Desktop() {
   const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
   const [openFolderId, setOpenFolderId] = useState<string | null>(null);
   const [systemStateMessage, setSystemStateMessage] = useState<string | null>(null);
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+
+  const triggerNotification = useCallback((title: string, message: string, taskId?: string) => {
+    const newToast: ToastItem = {
+      id: crypto.randomUUID(),
+      title,
+      message,
+      taskId,
+      createdAt: Date.now(),
+    };
+    setToasts((prev) => [...prev, newToast]);
+
+    // Auto dismiss after 5 seconds
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== newToast.id));
+    }, 5000);
+  }, []);
 
   const openApp = useCallback((appId: AppId) => {
     setWindows((prev) => {
@@ -156,7 +174,7 @@ export function Desktop() {
       case "notes":
         return <NotesApp />;
       case "todo":
-        return <TodoApp />;
+        return <TodoApp onTriggerNotification={triggerNotification} />;
       case "paint":
         return <PaintApp />;
       case "audiostudio":
@@ -371,12 +389,22 @@ export function Desktop() {
         ))}
       </div>
 
+      <NotificationToast
+        toasts={toasts}
+        onDismiss={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))}
+        onSelectTask={() => openApp("todo")}
+      />
+
       <Taskbar
         windows={windows}
         activeWindowId={activeWindowId}
         onOpenApp={openApp}
         onWindowClick={handleTaskbarClick}
         onSystemOption={handleSystemOption}
+        onMinimizeWindow={minimize}
+        onMaximizeWindow={toggleMaximize}
+        onCloseWindow={close}
+        notificationCount={toasts.length}
       />
     </div>
   );

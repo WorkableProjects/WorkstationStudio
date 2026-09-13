@@ -1,12 +1,14 @@
 {
   "name": "workstation-studio",
   "private": true,
-  "version": "0.0.2.7.77",
+  "version": "0.0.3.677.8",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "tsc --noEmit",
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@xterm/addon-fit": "^0.11.0",

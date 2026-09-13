@@ -12,6 +12,8 @@ interface Props {
   children: ReactNode;
 }
 
+const SNAP_GRID_SIZE = 12;
+
 export function WindowFrame({
   win,
   isActive,
@@ -49,11 +51,15 @@ export function WindowFrame({
     if (!drag.current || win.maximized) return;
     const dx = e.clientX - drag.current.ox;
     const dy = e.clientY - drag.current.oy;
-    onMove(
-      win.id,
-      Math.max(0, drag.current.sx + dx),
-      Math.max(0, drag.current.sy + dy),
-    );
+
+    // Apply window snap-to-grid
+    const rawX = Math.max(0, drag.current.sx + dx);
+    const rawY = Math.max(0, drag.current.sy + dy);
+
+    const snappedX = Math.round(rawX / SNAP_GRID_SIZE) * SNAP_GRID_SIZE;
+    const snappedY = Math.round(rawY / SNAP_GRID_SIZE) * SNAP_GRID_SIZE;
+
+    onMove(win.id, snappedX, snappedY);
   };
 
   const onPointerUp = () => {
@@ -66,7 +72,7 @@ export function WindowFrame({
         left: 0,
         top: 0,
         width: "100%",
-        height: "calc(100% - 30px)",
+        height: "calc(100vh - 30px)",
         zIndex: win.zIndex,
       }
     : {
