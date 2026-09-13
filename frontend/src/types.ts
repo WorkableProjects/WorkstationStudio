@@ -4,7 +4,11 @@ export type AppId =
   | "calculator"
   | "settings"
   | "about"
-  | "filemanager";
+  | "filemanager"
+  | "todo"
+  | "paint"
+  | "codeeditor"
+  | "contacts";
 
 export interface WindowState {
   id: string;
@@ -37,6 +41,34 @@ export const APP_META: Record<
     icon: "📝",
     desktopShortcut: true,
   },
+  todo: {
+    title: "Tasks & Todo",
+    defaultWidth: 380,
+    defaultHeight: 340,
+    icon: "✅",
+    desktopShortcut: true,
+  },
+  paint: {
+    title: "Studio Paint",
+    defaultWidth: 500,
+    defaultHeight: 380,
+    icon: "🎨",
+    desktopShortcut: true,
+  },
+  codeeditor: {
+    title: "Code Pad",
+    defaultWidth: 520,
+    defaultHeight: 380,
+    icon: "📜",
+    desktopShortcut: true,
+  },
+  contacts: {
+    title: "Contacts",
+    defaultWidth: 420,
+    defaultHeight: 320,
+    icon: "🎴",
+    desktopShortcut: true,
+  },
   calculator: {
     title: "Calculator",
     defaultWidth: 260,
@@ -53,8 +85,8 @@ export const APP_META: Record<
   },
   settings: {
     title: "Control Panel",
-    defaultWidth: 420,
-    defaultHeight: 320,
+    defaultWidth: 460,
+    defaultHeight: 340,
     icon: "⚙️",
     desktopShortcut: true,
   },
@@ -63,6 +95,6 @@ export const APP_META: Record<
     defaultWidth: 380,
     defaultHeight: 280,
     icon: "ℹ️",
-    desktopShortcut: false, // Placed under Workstation Studio in Start menu, not desktop
+    desktopShortcut: false, // Placed under Start Menu, not desktop
   },
 };

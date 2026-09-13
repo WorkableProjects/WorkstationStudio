@@ -31,7 +31,7 @@ export function AboutApp({ onClose }: Props) {
           <h2 style={{ margin: "0 0 2px 0", fontSize: "16px", fontWeight: "bold" }}>
             Workstation Studio
           </h2>
-          <div style={{ color: "#404040" }}>Version {packageJson.version}</div>
+          <div style={{ color: "#404040" }}>Version {packageJson.version} (v0.0.2.6.6)</div>
         </div>
       </div>
 

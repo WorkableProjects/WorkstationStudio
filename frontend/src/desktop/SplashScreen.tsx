@@ -51,7 +51,7 @@ export function SplashScreen({ onComplete }: Props) {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "#000000",
+        backgroundColor: "#008080", // Windows 95 setup teal background so black logo stands out
         color: "#ffffff",
         zIndex: 99999,
         display: "flex",

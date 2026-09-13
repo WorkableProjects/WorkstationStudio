@@ -1,12 +1,31 @@
-/* Classic Windows CSS Rules and Color Schemes */
+/* Workstation Studio Theme System & Styles */
 
 :root {
-  /* Default Combined Win95/Win98 variables */
+  /* Default Teal-Tech Modern Theme (Away from Win95 retro) */
+  --desktop-bg: radial-gradient(circle at 50% 30%, #0d3b3c 0%, #051c1d 100%);
+  --dialog-bg: #102a2b;
+  --dialog-fg: #e0f7f6;
+  --title-bg-active: #007a7c;
+  --title-gradient-end: #004d4e;
+  --title-fg-active: #ffffff;
+  --title-bg-inactive: #0a1f20;
+  --title-fg-inactive: #709a9b;
+
+  --border-light: #00f2fe;
+  --border-medium: #00a8ad;
+  --border-dark: #004d4e;
+  --border-darker: #002223;
+
+  --font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-size: 11px;
+}
+
+[data-theme="win95"] {
   --desktop-bg: #008080;
   --dialog-bg: #c0c0c0;
   --dialog-fg: #000000;
   --title-bg-active: #000080;
-  --title-gradient-end: #1084d0; /* Win98 gradient blue */
+  --title-gradient-end: #1084d0;
   --title-fg-active: #ffffff;
   --title-bg-inactive: #808080;
   --title-fg-inactive: #c0c0c0;
@@ -15,13 +34,9 @@
   --border-medium: #dfdfdf;
   --border-dark: #808080;
   --border-darker: #000000;
-
-  --font-family: Tahoma, "MS Sans Serif", "Segoe UI", Arial, sans-serif;
-  --font-size: 11px;
 }
 
 [data-theme="win31"] {
-  /* Ultra-Retro Windows 3.1 Monochrome / High-Contrast Scheme */
   --desktop-bg: #808080;
   --dialog-bg: #ffffff;
   --dialog-fg: #000000;
@@ -35,7 +50,7 @@
   --border-medium: #ffffff;
   --border-dark: #000000;
   --border-darker: #000000;
-  --font-family: "Courier New", "MS Sans Serif", monospace;
+  --font-family: "Courier New", monospace;
 }
 
 * {
@@ -55,7 +70,7 @@ body,
   user-select: none;
 }
 
-/* 3D Bevel Utilities */
+/* 3D Bevel & Frame Utilities */
 .outset-border {
   border-top: 2px solid var(--border-light);
   border-left: 2px solid var(--border-light);
@@ -282,10 +297,10 @@ input[type="text"], input[type="search"], textarea, select {
 
 .start-menu-sidebar {
   width: 28px;
-  background: linear-gradient(0deg, #000080, #1084d0);
+  background: linear-gradient(0deg, #004d4e, #00f2fe);
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  color: #ffffff;
+  color: #000000;
   font-weight: bold;
   font-size: 13px;
   letter-spacing: 1px;

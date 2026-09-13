@@ -5,6 +5,10 @@ import { CalculatorApp } from "../apps/CalculatorApp";
 import { SettingsApp } from "../apps/SettingsApp";
 import { AboutApp } from "../apps/AboutApp";
 import { FileManagerApp } from "../apps/FileManagerApp";
+import { TodoApp } from "../apps/TodoApp";
+import { PaintApp } from "../apps/PaintApp";
+import { CodeEditorApp } from "../apps/CodeEditorApp";
+import { ContactsApp } from "../apps/ContactsApp";
 import { WindowFrame } from "./WindowFrame";
 import { Taskbar } from "./Taskbar";
 import { SplashScreen } from "./SplashScreen";
@@ -143,6 +147,14 @@ export function Desktop() {
         return <TerminalApp />;
       case "notes":
         return <NotesApp />;
+      case "todo":
+        return <TodoApp />;
+      case "paint":
+        return <PaintApp />;
+      case "codeeditor":
+        return <CodeEditorApp />;
+      case "contacts":
+        return <ContactsApp />;
       case "calculator":
         return <CalculatorApp />;
       case "settings":

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { APP_META, type AppId } from "../types";
+import { useUser } from "../context/UserContext";
 
 interface Props {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface Props {
 
 export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const { currentUser } = useUser();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -35,55 +37,9 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
         <span>Workstation Studio</span>
       </div>
       <div className="start-menu-items">
-        <button
-          type="button"
-          className="start-menu-item"
-          onClick={() => {
-            onOpenApp("terminal");
-            onClose();
-          }}
-        >
-          <span>{APP_META.terminal.icon}</span>
-          <span>Workstation CLI</span>
-        </button>
-
-        <button
-          type="button"
-          className="start-menu-item"
-          onClick={() => {
-            onOpenApp("notes");
-            onClose();
-          }}
-        >
-          <span>{APP_META.notes.icon}</span>
-          <span>Notes</span>
-        </button>
-
-        <button
-          type="button"
-          className="start-menu-item"
-          onClick={() => {
-            onOpenApp("calculator");
-            onClose();
-          }}
-        >
-          <span>{APP_META.calculator.icon}</span>
-          <span>Calculator</span>
-        </button>
-
-        <button
-          type="button"
-          className="start-menu-item"
-          onClick={() => {
-            onOpenApp("filemanager");
-            onClose();
-          }}
-        >
-          <span>{APP_META.filemanager.icon}</span>
-          <span>File Manager</span>
-        </button>
-
-        <div className="start-menu-divider" />
+        <div style={{ padding: "6px 8px", fontSize: "11px", borderBottom: "1px solid var(--border-dark)", marginBottom: "4px" }}>
+          👤 User: <strong>{currentUser}</strong>
+        </div>
 
         <button
           type="button"
@@ -94,7 +50,7 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
           }}
         >
           <span>{APP_META.settings.icon}</span>
-          <span>Settings</span>
+          <span>Control Panel</span>
         </button>
 
         <button
@@ -106,7 +62,7 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
           }}
         >
           <span>{APP_META.about.icon}</span>
-          <span>About</span>
+          <span>About Workstation Studio</span>
         </button>
 
         <div className="start-menu-divider" />
