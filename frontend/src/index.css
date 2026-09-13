@@ -1,15 +1,15 @@
 /* Classic Windows CSS Rules and Color Schemes */
 
 :root {
-  /* Default Win95 variables */
+  /* Default Combined Win95/Win98 variables */
   --desktop-bg: #008080;
   --dialog-bg: #c0c0c0;
   --dialog-fg: #000000;
   --title-bg-active: #000080;
+  --title-gradient-end: #1084d0; /* Win98 gradient blue */
   --title-fg-active: #ffffff;
   --title-bg-inactive: #808080;
   --title-fg-inactive: #c0c0c0;
-  --title-gradient-end: #000080;
 
   --border-light: #ffffff;
   --border-medium: #dfdfdf;
@@ -20,36 +20,22 @@
   --font-size: 11px;
 }
 
-[data-theme="win98"] {
-  --desktop-bg: #3a6ea5;
-  --dialog-bg: #c0c0c0;
-  --dialog-fg: #000000;
-  --title-bg-active: #000080;
-  --title-gradient-end: #1084d0; /* Win98 blue gradient */
-  --title-fg-active: #ffffff;
-  --title-bg-inactive: #808080;
-  --title-fg-inactive: #c0c0c0;
-
-  --border-light: #ffffff;
-  --border-medium: #dfdfdf;
-  --border-dark: #808080;
-  --border-darker: #000000;
-}
-
 [data-theme="win31"] {
-  --desktop-bg: #008080;
-  --dialog-bg: #c0c0c0;
+  /* Ultra-Retro Windows 3.1 Monochrome / High-Contrast Scheme */
+  --desktop-bg: #808080;
+  --dialog-bg: #ffffff;
   --dialog-fg: #000000;
-  --title-bg-active: #000080;
-  --title-gradient-end: #000080;
+  --title-bg-active: #000000;
+  --title-gradient-end: #000000;
   --title-fg-active: #ffffff;
   --title-bg-inactive: #ffffff;
   --title-fg-inactive: #000000;
 
-  --border-light: #ffffff;
-  --border-medium: #c0c0c0;
+  --border-light: #000000;
+  --border-medium: #ffffff;
   --border-dark: #000000;
   --border-darker: #000000;
+  --font-family: "Courier New", "MS Sans Serif", monospace;
 }
 
 * {
@@ -283,7 +269,7 @@ input[type="text"], input[type="search"], textarea, select {
   position: absolute;
   bottom: 30px;
   left: 2px;
-  width: 220px;
+  width: 230px;
   background: var(--dialog-bg);
   border-top: 2px solid var(--border-light);
   border-left: 2px solid var(--border-light);
@@ -301,8 +287,8 @@ input[type="text"], input[type="search"], textarea, select {
   transform: rotate(180deg);
   color: #ffffff;
   font-weight: bold;
-  font-size: 14px;
-  letter-spacing: 2px;
+  font-size: 13px;
+  letter-spacing: 1px;
   padding: 8px 4px;
   display: flex;
   align-items: center;

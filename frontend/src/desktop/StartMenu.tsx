@@ -32,7 +32,7 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
   return (
     <div className="start-menu" ref={menuRef}>
       <div className="start-menu-sidebar">
-        <span>Windows95</span>
+        <span>Workstation Studio</span>
       </div>
       <div className="start-menu-items">
         <button
@@ -44,7 +44,7 @@ export function StartMenu({ isOpen, onClose, onOpenApp, onSystemOption }: Props)
           }}
         >
           <span>{APP_META.terminal.icon}</span>
-          <span>Terminal</span>
+          <span>Workstation CLI</span>
         </button>
 
         <button

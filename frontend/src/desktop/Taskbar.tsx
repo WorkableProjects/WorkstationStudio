@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { APP_META, type AppId, type WindowState } from "../types";
 import { StartMenu } from "./StartMenu";
+import { audioManager } from "../services/audioManager";
 
 interface Props {
   windows: WindowState[];
@@ -19,6 +20,7 @@ export function Taskbar({
 }: Props) {
   const [isStartOpen, setIsStartOpen] = useState(false);
   const [timeStr, setTimeStr] = useState("");
+  const [connectionName, setConnectionName] = useState("Local Area Network");
 
   useEffect(() => {
     function updateClock() {
@@ -29,8 +31,21 @@ export function Taskbar({
     }
     updateClock();
     const interval = setInterval(updateClock, 1000);
+
+    // Pull system network connection name if available
+    const navAny = navigator as any;
+    if (navAny.connection && navAny.connection.effectiveType) {
+      setConnectionName(`Network (${navAny.connection.effectiveType.toUpperCase()})`);
+    } else if (navigator.onLine) {
+      setConnectionName("Ethernet / Wi-Fi");
+    } else {
+      setConnectionName("Disconnected");
+    }
+
     return () => clearInterval(interval);
   }, []);
+
+  const currentVol = Math.round(audioManager.getVolume() * 100);
 
   return (
     <>
@@ -70,8 +85,8 @@ export function Taskbar({
         </div>
 
         <div className="system-tray">
-          <span title="Network status: Connected">📶</span>
-          <span title="Volume: Active">🔊</span>
+          <span title={`Connected - ${connectionName}`}>📶</span>
+          <span title={`Audio - Volume at ${currentVol}%`}>🔊</span>
           <span>{timeStr}</span>
         </div>
       </footer>

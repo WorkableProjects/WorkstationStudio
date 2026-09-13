@@ -8,6 +8,7 @@ import { FileManagerApp } from "../apps/FileManagerApp";
 import { WindowFrame } from "./WindowFrame";
 import { Taskbar } from "./Taskbar";
 import { SplashScreen } from "./SplashScreen";
+import { InstallWizard } from "./InstallWizard";
 import { APP_META, type AppId, type WindowState } from "../types";
 
 let zCounter = 10;
@@ -30,6 +31,9 @@ function createWindow(appId: AppId, offset: number): WindowState {
 }
 
 export function Desktop() {
+  const [needsInstall, setNeedsInstall] = useState(() => {
+    return !localStorage.getItem("workstation_installed");
+  });
   const [booting, setBooting] = useState(true);
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
@@ -150,6 +154,10 @@ export function Desktop() {
     }
   };
 
+  if (needsInstall) {
+    return <InstallWizard onComplete={() => setNeedsInstall(false)} />;
+  }
+
   if (booting) {
     return <SplashScreen onComplete={() => setBooting(false)} />;
   }
@@ -197,42 +205,44 @@ export function Desktop() {
             alignContent: "start",
           }}
         >
-          {(Object.keys(APP_META) as AppId[]).map((appId) => (
-            <button
-              key={appId}
-              type="button"
-              onDoubleClick={() => openApp(appId)}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "transparent",
-                border: "1px transparent solid",
-                boxShadow: "none",
-                color: "#ffffff",
-                textShadow: "1px 1px 2px #000000",
-                width: "72px",
-                height: "72px",
-                padding: "4px",
-                borderRadius: "2px",
-              }}
-            >
-              <span style={{ fontSize: "28px", marginBottom: "4px" }}>
-                {APP_META[appId].icon}
-              </span>
-              <span
+          {(Object.keys(APP_META) as AppId[])
+            .filter((appId) => APP_META[appId].desktopShortcut !== false)
+            .map((appId) => (
+              <button
+                key={appId}
+                type="button"
+                onDoubleClick={() => openApp(appId)}
                 style={{
-                  fontSize: "11px",
-                  textAlign: "center",
-                  wordBreak: "break-word",
-                  lineHeight: "1.1",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "transparent",
+                  border: "1px transparent solid",
+                  boxShadow: "none",
+                  color: "#ffffff",
+                  textShadow: "1px 1px 2px #000000",
+                  width: "72px",
+                  height: "72px",
+                  padding: "4px",
+                  borderRadius: "2px",
                 }}
               >
-                {APP_META[appId].title}
-              </span>
-            </button>
-          ))}
+                <span style={{ fontSize: "28px", marginBottom: "4px" }}>
+                  {APP_META[appId].icon}
+                </span>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    textAlign: "center",
+                    wordBreak: "break-word",
+                    lineHeight: "1.1",
+                  }}
+                >
+                  {APP_META[appId].title}
+                </span>
+              </button>
+            ))}
         </div>
 
         {/* Windows Rendering */}

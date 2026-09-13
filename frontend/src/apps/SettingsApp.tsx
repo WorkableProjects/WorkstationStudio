@@ -3,7 +3,7 @@ import { useTheme } from "../context/ThemeContext";
 import { audioManager } from "../services/audioManager";
 
 export function SettingsApp() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, fontFamily, setFontFamily } = useTheme();
   const [activeTab, setActiveTab] = useState<"appearance" | "sound" | "system">(
     "appearance",
   );
@@ -70,10 +70,11 @@ export function SettingsApp() {
           display: "flex",
           flexDirection: "column",
           gap: "12px",
+          overflowY: "auto",
         }}
       >
         {activeTab === "appearance" && (
-          <div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             <fieldset
               style={{
                 border: "1px solid var(--border-dark)",
@@ -82,7 +83,7 @@ export function SettingsApp() {
               }}
             >
               <legend style={{ fontSize: "11px", padding: "0 4px" }}>
-                Desktop Scheme
+                Desktop Theme Scheme
               </legend>
               <div
                 style={{
@@ -99,16 +100,7 @@ export function SettingsApp() {
                     checked={theme === "win95"}
                     onChange={() => setTheme("win95")}
                   />
-                  Windows 95 (Default)
-                </label>
-                <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <input
-                    type="radio"
-                    name="theme"
-                    checked={theme === "win98"}
-                    onChange={() => setTheme("win98")}
-                  />
-                  Windows 98 (SE Blue Gradient)
+                  Classic Desktop (Windows 95 / 98)
                 </label>
                 <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                   <input
@@ -117,8 +109,32 @@ export function SettingsApp() {
                     checked={theme === "win31"}
                     onChange={() => setTheme("win31")}
                   />
-                  Windows 3.1 (Retro Classic)
+                  Ultra-Retro Windows 3.1 (High Contrast Monochrome)
                 </label>
+              </div>
+            </fieldset>
+
+            <fieldset
+              style={{
+                border: "1px solid var(--border-dark)",
+                padding: "8px 12px",
+                margin: 0,
+              }}
+            >
+              <legend style={{ fontSize: "11px", padding: "0 4px" }}>
+                System Font
+              </legend>
+              <div style={{ marginTop: "4px" }}>
+                <select
+                  value={fontFamily}
+                  onChange={(e) => setFontFamily(e.target.value)}
+                  style={{ width: "100%" }}
+                >
+                  <option value="Tahoma, 'MS Sans Serif', sans-serif">Tahoma / MS Sans Serif</option>
+                  <option value="'Courier New', monospace">Courier New (Retro Terminal)</option>
+                  <option value="Arial, sans-serif">Arial</option>
+                  <option value="'Times New Roman', serif">Times New Roman</option>
+                </select>
               </div>
             </fieldset>
           </div>
@@ -191,19 +207,38 @@ export function SettingsApp() {
               }}
             >
               <legend style={{ fontSize: "11px", padding: "0 4px" }}>
-                System Display & Environment
+                System Display & Environment Details
               </legend>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  gap: "6px",
+                  gap: "8px",
                   fontSize: "11px",
+                  wordBreak: "break-all",
+                  whiteSpace: "normal",
+                  overflowWrap: "break-word",
                 }}
               >
-                <div>Resolution: {window.innerWidth} × {window.innerHeight}</div>
-                <div>User Agent: {navigator.userAgent.slice(0, 45)}...</div>
-                <div>Color Depth: {window.screen.colorDepth}-bit</div>
+                <div><strong>Resolution:</strong> {window.innerWidth} × {window.innerHeight}</div>
+                <div><strong>Color Depth:</strong> {window.screen.colorDepth}-bit</div>
+                <div><strong>Language:</strong> {navigator.language}</div>
+                <div><strong>User Agent:</strong></div>
+                <div
+                  className="inset-border"
+                  style={{
+                    backgroundColor: "#ffffff",
+                    padding: "6px",
+                    fontSize: "10px",
+                    fontFamily: "monospace",
+                    maxHeight: "120px",
+                    overflowY: "auto",
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-all",
+                  }}
+                >
+                  {navigator.userAgent}
+                </div>
               </div>
             </fieldset>
           </div>
